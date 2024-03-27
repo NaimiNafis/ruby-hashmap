@@ -1,4 +1,5 @@
 require_relative 'linked_lists'
+require 'pry-byebug'
 
 class HashMap
   INITIAL_BUCKETS = 26
@@ -25,7 +26,7 @@ class HashMap
       current = bucket.head
       until current.nil?
         if current.key == key
-          current.value == value
+          current.value = value
           return
         end
         current = current.next_node
