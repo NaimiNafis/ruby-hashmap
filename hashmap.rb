@@ -50,4 +50,45 @@ class HashMap
     nil
   end
 
+  def has(key)
+    index = hash(key) % @buckets.length
+    bucket = @buckets[index]
+
+    current = bucket.head
+    until current.nil?
+      return true if current.key == key
+      current = current.next_node
+    end
+
+    false
+  end
+
+  def remove(key)
+    index_bucket = hash(key) % @buckets.length
+    bucket = @buckets[index_bucket]
+
+    current = bucket.head
+    previous = nil
+
+    while !current.nil? && current.key != key
+      previous = current
+      current = current.next_node
+    end
+
+    if current.nil?
+      puts 'Key did not exist'
+      return nil
+    end
+
+    if previous.nil?
+      bucket.head = current.next_node # If 1st key removed, adjust head
+    else
+      previous.next_node = current.next_node # Other than that, bypass/adjust previous node's next_node
+    end
+
+    @total_entries -= 1
+    current.value
+  end
+
+
 end
