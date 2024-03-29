@@ -23,7 +23,7 @@ The `Node` class defines the structure of a node in the linked list. Each node e
 - **Comprehensive Key-Value Management**: Facilitates key-value pair addition, retrieval, and existence checking.
 - **Element Clearance**: Enables removing all elements from the hash map efficiently.
 
-## Example Usage
+## Example Usage : `main.rb`
 
 ```ruby
 # Instantiate a HashMap
@@ -63,5 +63,3 @@ puts my_hashmap.length          # 0
 puts my_hashmap.keys            # []
 
 ```
-
-`
