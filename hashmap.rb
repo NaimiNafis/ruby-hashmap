@@ -6,6 +6,7 @@ require 'pry-byebug'
 class HashMap
   INITIAL_BUCKETS = 26
   PRIME_NUMBER = 31
+  LOAD_FACTOR = 0.75
 
   def initialize
     @buckets = Array.new(INITIAL_BUCKETS) { LinkedList.new }
@@ -17,11 +18,16 @@ class HashMap
   end
 
   def index_for(key)
-    hash(key) % @buckets.length
+    index = hash(key) % @buckets.length
+    raise IndexError if index.negative? || index >= @buckets.length
+
+    index
   end
 
   def set(key, value)
-    bucket = @buckets[index_for(key)]
+    expand_buckets if @total_entries / @buckets.size.to_f > LOAD_FACTOR
+    index = index_for(key)
+    bucket = @buckets[index]
 
     if bucket.contains?(key)
       current = bucket.head
@@ -39,7 +45,8 @@ class HashMap
   end
 
   def get(key)
-    bucket = @buckets[index_for(key)]
+    index = index_for(key)
+    bucket = @buckets[index]
 
     current = bucket.head
     until current.nil?
@@ -52,7 +59,8 @@ class HashMap
   end
 
   def has(key)
-    bucket = @buckets[index_for(key)]
+    index = index_for(key)
+    bucket = @buckets[index]
 
     current = bucket.head
     until current.nil?
@@ -65,7 +73,8 @@ class HashMap
   end
 
   def remove(key)
-    bucket = @buckets[index_for(key)]
+    index = index_for(key)
+    bucket = @buckets[index]
 
     current = bucket.head
     previous = nil
@@ -81,20 +90,37 @@ class HashMap
     end
 
     if previous.nil?
-      bucket.head = current.next_node # If 1st key removed, adjust head
+      bucket.head = current.next_node
     else
-      previous.next_node = current.next_node # Other than that, bypass/adjust previous node's next_node
+      previous.next_node = current.next_node
     end
 
     @total_entries -= 1
     current.value
   end
 
+  def expand_buckets
+    old_buckets = @buckets
+    @buckets = Array.new(@buckets.length * 2) { LinkedList.new }
+    @total_entries = 0
+
+    old_buckets.each do |bucket|
+      current = bucket.head
+      while current
+        set(current.key, current.value)
+        current = current.next_node
+      end
+    end
+  end
+
   def iterate_over_buckets
     index_bucket = 0
 
-    while index_bucket < INITIAL_BUCKETS
-      bucket = @buckets[index_bucket]
+    while index_bucket < @buckets.length
+      index = index_bucket
+      raise IndexError if index.negative? || index >= @buckets.length
+
+      bucket = @buckets[index]
       current = bucket.head
       until current.nil?
         yield(current) if block_given?
@@ -105,11 +131,7 @@ class HashMap
   end
 
   def length
-    count = 0
-    iterate_over_buckets do |_current|
-      count += 1
-    end
-    count
+    @total_entries
   end
 
   def clear
@@ -120,25 +142,19 @@ class HashMap
 
   def keys
     keys_array = []
-    iterate_over_buckets do |current|
-      keys_array.push(current.key)
-    end
+    iterate_over_buckets { |current| keys_array.push(current.key) }
     keys_array
   end
 
   def values
     values_array = []
-    iterate_over_buckets do |current|
-      values_array.push(current.value)
-    end
+    iterate_over_buckets { |current| values_array.push(current.value) }
     values_array
   end
 
   def entries
     entries_array = []
-    iterate_over_buckets do |current|
-      entries_array.push([current.key, current.value])
-    end
+    iterate_over_buckets { |current| entries_array.push([current.key, current.value]) }
     entries_array
   end
 end
