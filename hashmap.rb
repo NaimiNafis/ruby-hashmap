@@ -107,5 +107,74 @@ class HashMap
     count
   end
 
+  def clear
+    index_bucket = 0
+
+    while index_bucket < INITIAL_BUCKETS
+      bucket = @buckets[index_bucket]
+      current = bucket.head
+      until current.nil?
+        remove(current.key)
+        current = current.next_node
+      end
+      index_bucket += 1
+    end
+
+  end
+
+  def keys
+    index_bucket = 0
+    keys_array = []
+
+    while index_bucket < INITIAL_BUCKETS
+      bucket = @buckets[index_bucket]
+      current = bucket.head
+      until current.nil?
+        keys_array.push(current.key)
+        current = current.next_node
+      end
+      index_bucket += 1
+    end
+
+    keys_array
+
+  end
+
+  def values
+    index_bucket = 0
+    values_array = []
+
+    while index_bucket < INITIAL_BUCKETS
+      bucket = @buckets[index_bucket]
+      current = bucket.head
+      until current.nil?
+        values_array.push(current.value)
+        current = current.next_node
+      end
+      index_bucket += 1
+    end
+
+    values_array
+
+  end
+
+  def entries
+    index_bucket = 0
+    entries_array = []
+
+    while index_bucket < INITIAL_BUCKETS
+      bucket = @buckets[index_bucket]
+      current = bucket.head
+      until current.nil?
+        entries_array.push([current.key, current.value])
+        current = current.next_node
+      end
+      index_bucket += 1
+    end
+
+    entries_array
+
+  end
+
 
 end
