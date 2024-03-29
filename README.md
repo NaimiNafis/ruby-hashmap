@@ -48,11 +48,11 @@ puts "All Values: #{my_hash_map.values}"
 puts "All Entries: #{my_hash_map.entries}"
 
 # Returns true or false based on whether or not the key is in the hash map
-puts my_hash_map.key?("name") #true
-puts my_hash_map.key?("age") #true
-puts my_hash_map.key?("city") #true
+puts my_hash_map.has("name") #true
+puts my_hash_map.has("age") #true
+puts my_hash_map.has("city") #true
 
-puts my_hash_map.key?("hello") #false
+puts my_hash_map.has("hello") #false
 
 # returns the number of stored keys in the hash map
 puts my_hash_map.length # 3
@@ -60,9 +60,9 @@ puts my_hash_map.length # 3
 my_hash_map.remove("name")
 puts my_hash_map.length # 2
 puts my_hash_map.get("name") # nil
-puts my_hash_map.key?("name") # false
+puts my_hash_map.has("name") # false
 
-p my_hash_map.keys ["age", "city"]
+p my_hash_map.keys #["age", "city"]
 
 
 # removes all entries in the hash map.
