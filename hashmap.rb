@@ -86,90 +86,56 @@ class HashMap
     current.value
   end
 
-  def length
-    count = 0
+  def iterate_over_buckets
     index_bucket = 0
 
     while index_bucket < INITIAL_BUCKETS
       bucket = @buckets[index_bucket]
       current = bucket.head
       until current.nil?
-        count += 1
+        yield(current) if block_given?
         current = current.next_node
       end
       index_bucket += 1
     end
+  end
 
+  def length
+    count = 0
+    iterate_over_buckets do |current|
+      count += 1
+    end
     count
   end
 
   def clear
-    index_bucket = 0
-
-    while index_bucket < INITIAL_BUCKETS
-      bucket = @buckets[index_bucket]
-      current = bucket.head
-      until current.nil?
-        remove(current.key)
-        current = current.next_node
-      end
-      index_bucket += 1
+    iterate_over_buckets do |current|
+      remove(current.key)
     end
-
   end
 
   def keys
-    index_bucket = 0
     keys_array = []
-
-    while index_bucket < INITIAL_BUCKETS
-      bucket = @buckets[index_bucket]
-      current = bucket.head
-      until current.nil?
-        keys_array.push(current.key)
-        current = current.next_node
-      end
-      index_bucket += 1
+    iterate_over_buckets do |current|
+      keys_array.push(current.key)
     end
-
     keys_array
-
   end
 
   def values
-    index_bucket = 0
     values_array = []
-
-    while index_bucket < INITIAL_BUCKETS
-      bucket = @buckets[index_bucket]
-      current = bucket.head
-      until current.nil?
-        values_array.push(current.value)
-        current = current.next_node
-      end
-      index_bucket += 1
+    iterate_over_buckets do |current|
+      values_array.push(current.value)
     end
-
     values_array
-
   end
 
   def entries
-    index_bucket = 0
     entries_array = []
-
-    while index_bucket < INITIAL_BUCKETS
-      bucket = @buckets[index_bucket]
-      current = bucket.head
-      until current.nil?
-        entries_array.push([current.key, current.value])
-        current = current.next_node
-      end
-      index_bucket += 1
+    iterate_over_buckets do |current|
+      entries_array.push([current.key, current.value])
     end
-
     entries_array
-
   end
 
 
