@@ -1,47 +1,37 @@
 require_relative 'hashmap'
 
-# Create a new HashMap
-my_hash_map = HashMap.new
+# Instantiate a HashMap
+my_hashmap = HashMap.new
 
-# Set key-value pairs
-my_hash_map.set("name", "John")
-my_hash_map.set("age", 25)
-my_hash_map.set("city", "New York")
+# Adding key-value pairs
+my_hashmap.set("Harry", "Potter")
+my_hashmap.set("Ron", "Weasly")
+my_hashmap.set("Hermione", "Granger")
 
-# Retrieve values
-puts "Name: #{my_hash_map.get("name")}"
-puts "Age: #{my_hash_map.get("age")}"
-puts "City: #{my_hash_map.get("city")}"
+# Retrieving values by keys
+puts "Harry's surname is #{my_hashmap.get("Harry")}"
+puts "Ron's surname is #{my_hashmap.get("Ron")}"
+puts "Hermione's surname is #{my_hashmap.get("Hermione")}"
 
+# Display keys, values, and full entries
+puts "Keys: #{my_hashmap.keys}"
+puts "Values: #{my_hashmap.values}"
+puts "Entries: #{my_hashmap.entries}"
 
-# Display all keys, values, and entries
-puts "All Keys: #{my_hash_map.keys}"
-puts "All Values: #{my_hash_map.values}"
-puts "All Entries: #{my_hash_map.entries}"
+# Check for key presence
+puts my_hashmap.has("Harry")    # true
+puts my_hashmap.has("Draco")    # false
 
-# Returns true or false based on whether or not the key is in the hash map
-# true
-puts my_hash_map.has("name")
-puts my_hash_map.has("age")
-puts my_hash_map.has("city")
+# Removing and checking elements
+my_hashmap.remove("Harry")
+puts my_hashmap.length          # 2
+p my_hashmap.get("Harry")       # nil
+puts my_hashmap.has("Harry")    # false
 
-# false
-puts my_hash_map.has("hello")
+# Listing remaining keys
+p my_hashmap.keys               # ["Ron", "Hermione"]
 
-# Returns the number of stored keys in the hash map
-puts my_hash_map.length
-
-# Returns the number of stored keys in the hash map after remove
-my_hash_map.remove("name")
-puts my_hash_map.length
-p my_hash_map.get("name") # Should return nil
-puts my_hash_map.has("name")
-
-p my_hash_map.keys
-
-# removes all entries in the hash map.
-my_hash_map.clear
-
-puts my_hash_map.length
-
-p my_hash_map.keys
+# Clearing the hash map
+my_hashmap.clear
+puts my_hashmap.length          # 0
+puts my_hashmap.keys            # []

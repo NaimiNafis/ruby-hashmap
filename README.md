@@ -1,75 +1,67 @@
-# HashMap Implementation in Ruby Overview
+# Ruby HashMap Implementation Overview
 
-#12 DSA - Hashmap :
-This is an exercise that implements a hash map structure in the Ruby language. Done as part of [The Odin Project curriculum](https://www.theodinproject.com/lessons/ruby-hashmap).
+This guide presents a Ruby-based hash map, part of [The Odin Project curriculum](https://www.theodinproject.com/lessons/ruby-hashmap). It showcases a hash map structure enhanced by a linked list to manage collisions, aimed at efficiency and simplicity for various use cases.
 
-This repository contains a comprehensive implementation of a hash map in Ruby, featuring a robust linked list for handling collisions. The implementation is designed with scalability and simplicity in mind, making it suitable for a wide range of applications.
-
-## Files Included
+## Included Files
 
 ### `linked_list.rb`
 
-This file defines the `LinkedList` class, a fundamental component for handling collisions in the hash map. The linked list is a dynamic data structure that allows for efficient insertion and retrieval of key-value pairs. Each node in the linked list contains a key, data, and a reference to the next node.
+Defines the `LinkedList` class for collision resolution. It uses a dynamic approach for the fast handling of key-value pairs through a series of nodes linked together, each holding a key, value, and reference to the next node.
 
 ### `hashmap.rb`
 
-The `HashMap` class is the core component of this repository, showcasing a powerful hash map implementation utilizing the linked list for managing collisions. The hash map is initialized with a fixed number of buckets (default: 26 (based on the alphabets)) to store key-value pairs efficiently. It provides methods for setting key-value pairs, retrieving values by key, checking for key existence, clearing all elements, and obtaining arrays of keys, values, and entries.
+Defines the `HashMap` class, illustrating an efficient hash map mechanism. Initialized with a default set of buckets (26), it supports key-value pair operations, value retrieval, key existence verification, load factor for expandable buckets and complete data clearance.
 
 ### `node.rb`
 
 The `Node` class defines the structure of a node in the linked list. Each node encapsulates a key, data(value), and a reference to the next node. This class is an integral part of the linked list and contributes to the overall functionality of the hash map.
 
-## Features
+## Key Features
 
-- Collision Handling: Utilizes a linked list to manage collisions efficiently.
-- Dynamic Sizing: The number of buckets in the hash map is customizable for optimization.
-- Key-Value Operations: Provides methods for setting, getting, and checking the existence of key-value pairs.
-- Clearing Elements: Clears all elements from the hash map.
+- **Collision Handling**: Adopts linked lists for effective collision management.
+- **Dynamic Sizing**: Allows customization of the bucket count for performance tuning.
+- **Comprehensive Key-Value Management**: Facilitates key-value pair addition, retrieval, and existence checking.
+- **Element Clearance**: Enables removing all elements from the hash map efficiently.
 
-## Usage Example
+## Example Usage
 
 ```ruby
-# Create a new HashMap
-my_hash_map = HashMap.new
+# Instantiate a HashMap
+my_hashmap = HashMap.new
 
-# Set key-value pairs
-my_hash_map.set("name", "John")
-my_hash_map.set("age", 25)
-my_hash_map.set("city", "New York")
+# Adding key-value pairs
+my_hashmap.set("Harry", "Potter")
+my_hashmap.set("Ron", "Weasly")
+my_hashmap.set("Hermione", "Granger")
 
-# Retrieve values
-puts "Name: #{my_hash_map.get("name")}"
-puts "Age: #{my_hash_map.get("age")}"
-puts "City: #{my_hash_map.get("city")}"
+# Retrieving values by keys
+puts "Harry's surname is #{my_hashmap.get("Harry")}"
+puts "Ron's surname is #{my_hashmap.get("Ron")}"
+puts "Hermione's surname is #{my_hashmap.get("Hermione")}"
 
-# Display all keys, values, and entries
-puts "All Keys: #{my_hash_map.keys}"
-puts "All Values: #{my_hash_map.values}"
-puts "All Entries: #{my_hash_map.entries}"
+# Display keys, values, and full entries
+puts "Keys: #{my_hashmap.keys}"
+puts "Values: #{my_hashmap.values}"
+puts "Entries: #{my_hashmap.entries}"
 
-# Returns true or false based on whether or not the key is in the hash map
-puts my_hash_map.has("name") #true
-puts my_hash_map.has("age") #true
-puts my_hash_map.has("city") #true
+# Check for key presence
+puts my_hashmap.has("Harry")    # true
+puts my_hashmap.has("Draco")    # false
 
-puts my_hash_map.has("hello") #false
+# Removing and checking elements
+my_hashmap.remove("Harry")
+puts my_hashmap.length          # 2
+p my_hashmap.get("Harry")    # nil
+puts my_hashmap.has("Harry")    # false
 
-# returns the number of stored keys in the hash map
-puts my_hash_map.length # 3
+# Listing remaining keys
+p my_hashmap.keys               # ["Ron", "Hermione"]
 
-my_hash_map.remove("name")
-puts my_hash_map.length # 2
-puts my_hash_map.get("name") # nil
-puts my_hash_map.has("name") # false
-
-p my_hash_map.keys #["age", "city"]
-
-
-# removes all entries in the hash map.
-my_hash_map.clear
-
-puts my_hash_map.length # 0
-puts my_hash_map.keys # []
-
+# Clearing the hash map
+my_hashmap.clear
+puts my_hashmap.length          # 0
+puts my_hashmap.keys            # []
 
 ```
+
+`
