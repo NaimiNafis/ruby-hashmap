@@ -90,5 +90,22 @@ class HashMap
     current.value
   end
 
+  def length
+    count = 0
+    index_bucket = 0
+
+    while index_bucket < INITIAL_BUCKETS
+      bucket = @buckets[index_bucket]
+      current = bucket.head
+      until current.nil?
+        count += 1
+        current = current.next_node
+      end
+      index_bucket += 1
+    end
+
+    count
+  end
+
 
 end
