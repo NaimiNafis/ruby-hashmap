@@ -3,6 +3,7 @@ require 'pry-byebug'
 
 class HashMap
   INITIAL_BUCKETS = 26
+  PRIME_NUMBER = 31
 
   def initialize
     @buckets = Array.new(INITIAL_BUCKETS) { LinkedList.new }
@@ -10,17 +11,15 @@ class HashMap
   end
 
   def hash(key)
-    hash_code = 0
-    prime_number = 31
+    key.each_char.reduce(0) { |hash_code, char| PRIME_NUMBER * hash_code + char.ord }
+  end
 
-    key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
-
-    hash_code
+  def index_for(key)
+    hash(key) % @buckets.length
   end
 
   def set(key, value)
-    index = hash(key) % @buckets.length
-    bucket = @buckets[index] # Instantiate LinkedList obj
+    bucket = @buckets[index_for(key)]
 
     if bucket.contains?(key)
       current = bucket.head
@@ -38,8 +37,7 @@ class HashMap
   end
 
   def get(key)
-    index = hash(key) % @buckets.length
-    bucket = @buckets[index]
+    bucket = @buckets[index_for(key)]
 
     current = bucket.head
     until current.nil?
@@ -51,8 +49,7 @@ class HashMap
   end
 
   def has(key)
-    index = hash(key) % @buckets.length
-    bucket = @buckets[index]
+    bucket = @buckets[index_for(key)]
 
     current = bucket.head
     until current.nil?
@@ -64,8 +61,7 @@ class HashMap
   end
 
   def remove(key)
-    index_bucket = hash(key) % @buckets.length
-    bucket = @buckets[index_bucket]
+    bucket = @buckets[index_for(key)]
 
     current = bucket.head
     previous = nil
