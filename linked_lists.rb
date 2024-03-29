@@ -18,16 +18,6 @@ class LinkedList
     end
   end
 
-  def size
-    count = 0
-    current = @head
-    until current.nil?
-      count += 1
-      current = current.next_node
-    end
-    count
-  end
-
   def contains?(key)
     return false if @head.nil?
 
@@ -38,20 +28,6 @@ class LinkedList
       current = current.next_node
     end
     false
-  end
-
-  def find(key)
-    return nil if @head.nil?
-
-    index = 0
-    current = @head
-    until current.nil?
-      return index if current.key == key
-
-      current = current.next_node
-      index += 1
-    end
-    nil
   end
 
 end
