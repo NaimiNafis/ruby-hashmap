@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'linked_lists'
 require 'pry-byebug'
 
@@ -42,6 +44,7 @@ class HashMap
     current = bucket.head
     until current.nil?
       return current.value if current.key == key
+
       current = current.next_node
     end
 
@@ -54,6 +57,7 @@ class HashMap
     current = bucket.head
     until current.nil?
       return true if current.key == key
+
       current = current.next_node
     end
 
@@ -102,7 +106,7 @@ class HashMap
 
   def length
     count = 0
-    iterate_over_buckets do |current|
+    iterate_over_buckets do |_current|
       count += 1
     end
     count
@@ -137,6 +141,4 @@ class HashMap
     end
     entries_array
   end
-
-
 end
